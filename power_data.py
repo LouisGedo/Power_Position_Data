@@ -98,6 +98,15 @@ class PowerTradersReport():
             
 
     def get_quality_summary(self):
+        """
+            Performs data aggregations and generate data summary
+
+        Raises:
+            Exception: when an error occurs and logs the error
+
+        Returns:
+            dataframe: pandas dataframe
+        """
         try:
             schema = pa.DataFrameSchema({
                 "date": pa.Column(str, nullable=False),
@@ -131,6 +140,15 @@ class PowerTradersReport():
 
 
     def get_data_profile(self):
+        """
+            generate data profile
+
+        Raises:
+            Exception: when an error occurs and logs the error
+
+        Returns:
+            dataframe: pandas dataframe
+        """
         try:
             df = self.get_trade_data()
             profile_df = df.describe(include='object').T.reset_index().rename(columns={'index': 'columns'})
@@ -146,6 +164,15 @@ class PowerTradersReport():
 
 
     def get_data_summary(self):
+        """
+            Performs data aggregations and generate data summary
+
+        Raises:
+            Exception: when an error occurs and logs the error
+
+        Returns:
+            dataframe: pandas dataframe
+        """
         try:
             df = self.get_trade_data()
             agg_df = df.groupby(['hour_within'])['volume'].sum().reset_index()
@@ -169,6 +196,12 @@ class PowerTradersReport():
 
 
     def save_report(self):
+        """
+            Save all report with prefix PowerPosition_YYYYMMDD_HHMM.
+            The report include, the summary report, profile report and quality report
+        Raises:
+            Exception: when an error occurs and logs the error
+        """
         try:
             output_location = self.output_location
             try:
